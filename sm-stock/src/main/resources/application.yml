@@ -1,0 +1,33 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 8081
+
+spring:
+  application:
+    # 注册到注册中心的服务名
+    name: sm-stock
+  # 数据库连接配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://139.199.230.186:3306/sm_stock
+    username: root
+    password: shipeng@98
+    type: com.alibaba.druid.pool.DruidDataSource
+  # 注册中心连接配置
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 139.199.230.186:8848
+        username: nacos
+        password: nacos
+        namespace: 7b8c0819-565e-45d7-8448-06a4398bca99
+
+mybatis-plus:
+  type-aliases-package: com.sp
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      table-prefix: sm_
