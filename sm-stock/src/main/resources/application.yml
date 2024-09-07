@@ -31,3 +31,17 @@ mybatis-plus:
     db-config:
       id-type: auto
       table-prefix: sm_
+
+seata:
+  registry:
+    type: nacos
+    nacos:
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      namespace: ${spring.cloud.nacos.discovery.namespace}
+      group: SEATA_GROUP
+      application: seata-server
+      username: ${spring.cloud.nacos.discovery.username}
+      password: ${spring.cloud.nacos.discovery.password}
+  service:
+    vgroup-mapping:
+      default_tx_group: my-cluster

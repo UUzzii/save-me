@@ -1,6 +1,6 @@
 package com.sp.smorder.controller;
 
-import com.sp.smorder.entity.Order;
+import com.sp.common.entity.Order;
 import com.sp.smorder.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

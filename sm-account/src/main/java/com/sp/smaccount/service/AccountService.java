@@ -1,7 +1,6 @@
 package com.sp.smaccount.service;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
@@ -11,6 +10,7 @@ import com.sp.common.feign.StockClient;
 import com.sp.smaccount.entity.Account;
 import com.sp.smaccount.entity.Product;
 import com.sp.smaccount.mapper.AccountMapper;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,16 +31,26 @@ public class AccountService extends ServiceImpl<AccountMapper, Account> {
     private StockClient stockClient;
 
 
+    @GlobalTransactional
     public String buy(Product product) {
+        // 判断库存扣减
         Stock stock = new Stock();
         stock.setProductId(product.getProductId());
         stock.setStockNum(product.getNum());
-
         String response = stockClient.deduct(stock);
         System.out.println("stockClient.deduct => " + response);
 
+        // 从钱包中扣款
+        int pay = baseMapper.pay(product.getAccountId(), product.getPrice());
+        if (pay == 0) {
+            throw new RuntimeException("余额不足！");
+        }
+
         return "购买成功！";
     }
+
+
+
 
 
     @PostConstruct

@@ -1,8 +1,11 @@
 package com.sp.smstock.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sp.common.entity.Order;
 import com.sp.common.entity.Stock;
+import com.sp.common.feign.OrderClient;
 import com.sp.smstock.mapper.StockMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,19 +17,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class StockService extends ServiceImpl<StockMapper, Stock> {
 
+    @Autowired
+    private OrderClient orderClient;
+
 
     public String deduct(Stock stock) {
         int i = baseMapper.deduct(stock);
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
         if (i == 0) {
             throw new RuntimeException("扣减失败，库存不足！");
         }
+
+        Order order = new Order();
+        order.setAccountId(1);
+        order.setProductId(stock.getProductId());
+        order.setProductNum(stock.getStockNum());
+        String response = orderClient.create(order);
+        System.out.println(response);
+
         return "扣减成功";
     }
 }

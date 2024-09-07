@@ -1,7 +1,7 @@
 package com.sp.smorder.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sp.smorder.entity.Order;
+import com.sp.common.entity.Order;
 
 /**
  * OrderMapper

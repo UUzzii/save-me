@@ -1,4 +1,4 @@
-package com.sp.smorder.entity;
+package com.sp.common.entity;
 
 import lombok.Data;
 

@@ -2,6 +2,8 @@ package com.sp.smaccount.entity;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * Product
  *
@@ -16,4 +18,6 @@ public class Product {
     private Integer productId;
 
     private Integer num;
+
+    private BigDecimal price;
 }

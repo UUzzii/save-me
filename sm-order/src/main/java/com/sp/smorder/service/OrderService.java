@@ -1,7 +1,7 @@
 package com.sp.smorder.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sp.smorder.entity.Order;
+import com.sp.common.entity.Order;
 import com.sp.smorder.mapper.OrderMapper;
 import org.springframework.stereotype.Service;
 
