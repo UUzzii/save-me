@@ -7,6 +7,7 @@ import com.sp.common.feign.OrderClient;
 import com.sp.smstock.mapper.StockMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * StockService
@@ -21,10 +22,11 @@ public class StockService extends ServiceImpl<StockMapper, Stock> {
     private OrderClient orderClient;
 
 
+    @Transactional(rollbackFor = Exception.class)
     public String deduct(Stock stock) {
         int i = baseMapper.deduct(stock);
 
-        if (i == 0) {
+        if (i == 0 || stock.getStockNum() == 22) {
             throw new RuntimeException("扣减失败，库存不足！");
         }
 

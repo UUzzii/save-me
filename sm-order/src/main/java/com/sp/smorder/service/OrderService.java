@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sp.common.entity.Order;
 import com.sp.smorder.mapper.OrderMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -17,12 +18,13 @@ import java.time.LocalDateTime;
 public class OrderService extends ServiceImpl<OrderMapper, Order> {
 
 
+    @Transactional(rollbackFor = Exception.class)
     public String create(Order order) {
         order.setCode(System.currentTimeMillis()+"");
         order.setCreateTime(LocalDateTime.now());
         baseMapper.insert(order);
 
-        if (order.getProductNum() == 21) {
+        if (order.getProductNum() == 33) {
             throw new RuntimeException("未知错误，订单创建失败！");
         }
 

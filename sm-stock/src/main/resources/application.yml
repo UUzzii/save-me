@@ -32,6 +32,16 @@ mybatis-plus:
       id-type: auto
       table-prefix: sm_
 
+feign:
+  client:
+    config:
+      default:
+        # 毫秒
+        connectTimeout: 3000
+        readTimeout: 90000
+  okhttp:
+    enabled: true
+
 seata:
   registry:
     type: nacos

@@ -38,7 +38,7 @@ feign:
       default:
         # 毫秒
         connectTimeout: 3000
-        readTimeout: 5000
+        readTimeout: 90000
   okhttp:
     enabled: true
   sentinel:

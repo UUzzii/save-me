@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,18 +34,18 @@ public class AccountService extends ServiceImpl<AccountMapper, Account> {
 
     @GlobalTransactional
     public String buy(Product product) {
+        // 从钱包中扣款
+        int pay = baseMapper.pay(product.getAccountId(), product.getPrice());
+        if (pay == 0 || product.getPrice().compareTo(new BigDecimal("11")) == 0) {
+            throw new RuntimeException("余额不足！");
+        }
+
         // 判断库存扣减
         Stock stock = new Stock();
         stock.setProductId(product.getProductId());
         stock.setStockNum(product.getNum());
         String response = stockClient.deduct(stock);
         System.out.println("stockClient.deduct => " + response);
-
-        // 从钱包中扣款
-        int pay = baseMapper.pay(product.getAccountId(), product.getPrice());
-        if (pay == 0) {
-            throw new RuntimeException("余额不足！");
-        }
 
         return "购买成功！";
     }
